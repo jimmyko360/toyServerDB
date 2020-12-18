@@ -14,7 +14,7 @@ const tableName = 'people';
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'mln1',
+  password: 'Watterson2!',
 });
 
 // This will promisify the MySQL library
