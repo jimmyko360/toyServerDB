@@ -17,21 +17,35 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // RESTful Routes for CRUD operations //////////////////////////////////////////
 
 // TODO
-app.get('/', (req, res) => {
-  console.log('req received:', Object.keys(req))
-  res.send('hi there') // can add data or headers
-  })
+app.get('/', (err, results) =>{
+  console.log('Hello from the server!');
+  res.status(200);
+})
 
-app.post('/', (req, res) => {
-  console.log('req received:', Object.keys(req))
-
-  res.send('hi there')
+app.get('/people', (req, res) => {
+  gatewayToDB.queryAsync('SELECT * FROM people')
+  .then ((results)=>{
+    res.status(200).json(results) // can add data or headers
   })
+  .catch((error)=>{
+    throw error;
+  })
+})
+
+app.post('/people', (req, res) => {
+  gatewayToDB.queryAsync('INSERT INTO people (name, color) VALUES (?, ?)', [req.body.name, req.body.color])
+  .then ((results)=>{
+    res.status(201).json(results) // can add data or headers
+  })
+  .catch((error)=>{
+    throw error;
+  })
+})
 
 // Start & Initialize Web Server ///////////////////////////////////////////////
 
-const port = 3000;
+const port = 5500;
 app.listen(port, () => {
-  console.log("CRUDdy Todo server is running in the terminal");
+  console.log("toyServer is running in the terminal");
   console.log(`To get started, visit: http://localhost:${port}`);
 });
